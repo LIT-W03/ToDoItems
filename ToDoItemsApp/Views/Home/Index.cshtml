@@ -1,0 +1,58 @@
+﻿@using ToDoItems.Data
+@model ToDoItemsApp.Models.ToDoItemsListViewModel
+
+<div class="row">
+    <form id="filter-form" action="/">
+        <div class="col-md-6 col-md-offset-3">
+            <select id="category-filter" name="categoryId" class="form-control">
+                <option value="0">-- CHOOSE A CATEGORY TO FILTER --</option>
+                @foreach (Category c in Model.Categories)
+                {
+                    if (Model.SelectedCategory == c.Id)
+                    {
+                        <option selected value="@c.Id">@c.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@c.Id">@c.Name</option>
+                    }
+                }
+            </select>
+        </div>
+    </form>
+</div>
+<table class="table table-hover table-striped table-bordered">
+    <tr>
+        <th>Title</th>
+        <th>Short Description</th>
+        <th>Due Date</th>
+        <th>Completed</th>
+        <th>Category Name</th>
+    </tr>
+
+    @foreach (ToDoItem item in Model.ToDoItems)
+    {
+        <tr class="@(item.IsOverdue ? "danger" : "")">
+            <td>
+                <a href="/home/viewtask?id=@item.Id">@item.Title</a>
+            </td>
+            <td>
+                @(item.Description.Length < 100 ? item.Description : item.Description.Substring(0, 100) + "...")
+            </td>
+            <td>
+                @item.DueDate.ToShortDateString()
+            </td>
+            <td>
+                <input type="checkbox" disabled @(item.Completed ? "checked" : "") />
+            </td>
+            <td>
+                @item.CategoryName
+            </td>
+        </tr>
+    }
+</table>
+
+@section scripts
+{
+    <script src="/Content/js/index.js"></script>
+}

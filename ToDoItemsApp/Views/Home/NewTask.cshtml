@@ -1,0 +1,32 @@
+﻿@using ToDoItems.Data
+@using ToDoItemsApp.Models
+@model NewTaskViewModel
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <form method="post" action="/home/addtask">
+            <select name="categoryId" class="form-control">
+                @foreach (Category category in Model.Categories)
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            </select>
+            <br />
+            <input id="title" type="text" placeholder="Title" name="title"
+                   class="form-control" />
+            <br />
+            <textarea id="description" class="form-control" name="description" placeholder="Description"></textarea>
+            <br />
+            <input id="date" type="date" name="dueDate" class="form-control" placeholder="Due Date" />
+            <br />
+
+            <button id="submit" disabled="true" class="btn btn-primary">Add Task</button>
+        </form>
+    </div>
+
+</div>
+
+@section scripts
+{
+    <script src="/Content/js/add-task.js"></script>
+}
